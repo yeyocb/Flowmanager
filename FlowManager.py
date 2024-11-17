@@ -1,7 +1,9 @@
+from datetime import timedelta, datetime
+from random import randint
+import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
-import matplotlib.pyplot as plt
-from random import randint
+
 
 class Proyecto:
     def __init__(self, codigo, nombre, descripcion, jefeProyecto):
@@ -74,27 +76,20 @@ class FlowManagerApp:
             tipoPruebaLista = ["Pruebas Funcionales", "Pruebas de Integración", "Pruebas de Validación", "Pruebas de Regresión", "Pruebas de Carga"]
             tipoIncideLista = ["Falla de sistema", "performance", "usabilidad"]
 
-            proyectoInd = 0
-            miembQAInd = 0
-            miembrDesaInd = 0
-            tipoPruebaInd = 0
-            tipoIncInd = 0
-            estadoIncInd = 0
-
             incidencias = []
             for i in range(1, cantidadInci + 1):
-                proyecto = proyectos[proyectoInd]
-                miembroQA = miembrosQA[miembQAInd]
-                miembroDesarrollador = desarrolladores[miembrDesaInd]
-                tipoPrueba = tipoPruebaLista[tipoPruebaInd]
-                tipoIncidencia = tipoIncideLista[tipoIncInd]
-                desarrolladorSolu = desarrolladores[miembrDesaInd]
+                proyecto = proyectos[randint(1, len(proyectos) - 1)]
+                miembroQA = miembrosQA[randint(1, len(miembrosQA) - 1)]
+                miembroDesarrollador = desarrolladores[randint(1, len(desarrolladores) - 1)]
+                tipoPrueba = tipoPruebaLista[randint(1, len(tipoPruebaLista) - 1)]
+                tipoIncidencia = tipoIncideLista[randint(1, len(tipoIncideLista) - 1)]
+                desarrolladorSolu = desarrolladores[randint(1, len(desarrolladores) - 1)]
                 estado = "Abierto"
 
-                fecha_hora = fake.date_time_this_year()
-                fecha_hora_qa = fake.date_time_between(start_date=fecha_hora, end_date="+2d")
-                fecha_hora_desa = fake.date_time_between(start_date=fecha_hora_qa, end_date="+3d")
-                fecha_hora_cierre = fake.date_time_between(start_date=fecha_hora_desa, end_date="+5d")
+                fecha_hora = datetime.now() - timedelta(days=randint(0, 365))
+                fecha_hora_qa = fecha_hora + timedelta(days=randint(1, 2))
+                fecha_hora_desa = fecha_hora_qa + timedelta(days=randint(1, 3))
+                fecha_hora_cierre = fecha_hora_desa + timedelta(days=randint(1, 5))
                 descripcion = f"Descripción de la incidencia {i}"
 
                 # Agregar los datos generados a la lista
@@ -113,20 +108,13 @@ class FlowManagerApp:
                     "FechaHoraCierre": fecha_hora_cierre,
                     "DesarrolladorSol": desarrolladorSolu,
                     "Estado": estado
-
                 })
-
-                proyectoInd = (proyectoInd + 1) % len(proyectos)
-                miembQAInd = (miembQAInd + 1) % len(miembrosQA)
-                miembrDesaInd = (miembrDesaInd + 1) % len(desarrolladores)
-                tipoPruebaInd = (tipoPruebaInd + 1) % len(tipoPruebaLista)
-                tipoIncInd = (tipoIncInd + 1) % len(tipoIncideLista)
-                estadoIncInd = (estadoIncInd + 1) % len(estadoInLista)
 
             df = pd.DataFrame(incidencias)
             df.to_csv('incidencias.csv', index=False, encoding='utf-8')
-
-        st.success(f"Se ha generado {cantidadInci} Incidencias.")
+            self.data = df
+            st.dataframe(self.data)
+            st.success(f"Se ha generado {cantidadInci} Incidencias.")
 
     def actualizarIncidencia(self):
         st.write("## Actualizar Incidencia")
@@ -147,6 +135,7 @@ class FlowManagerApp:
 
         st.subheader("Lista de Incidencias Actualizada")
         st.dataframe(self.data)
+        self.data.to_csv('incidencias.csv', index=False, encoding='utf-8')
 
     def verReportes(self):
         st.write("### Reporte por tipo de Prueba")
@@ -200,6 +189,54 @@ class FlowManagerApp:
         plt.xlabel("Desarrollador de la Solución")
         plt.xticks(rotation=0)
         plt.tight_layout()
+        st.pyplot(plt)
+
+        st.write("## Estadísticas Adicionales")
+
+        st.write("### Tiempos Promedio por Estado")
+        tiempoEstado = self.data.groupby('Estado')['FechaHoraCierre'].count()
+        plt.figure(figsize=(8, 5))
+        tiempoEstado.plot(kind='bar', color='blue')
+        plt.title("Cantidad de Incidencias por Estado")
+        plt.ylabel("Cantidad")
+        plt.xlabel("Estado")
+        plt.xticks(rotation=0)
+        plt.tight_layout()
+        st.pyplot(plt)
+
+        st.write("### Distribución por Severidad")
+        if 'Severidad' not in self.data.columns:
+            severidades = ["Crítica", "Alta", "Media", "Baja"]
+            self.data['Severidad'] = [severidades[randint(0, 3)] for _ in range(len(self.data))]
+
+        severidad_counts = self.data['Severidad'].value_counts()
+        plt.figure(figsize=(8, 5))
+        severidad_counts.plot(kind='bar', color='purple')
+        plt.title("Distribución de Incidencias por Severidad")
+        plt.ylabel("Cantidad")
+        plt.xlabel("Severidad")
+        plt.xticks(rotation=0)
+        st.pyplot(plt)
+
+        st.write("### Tasa de Reasignación")
+        estados = self.data['Estado'].value_counts()
+        reasignadas = estados.get('Reasignado', 0)
+        total = estados.sum()
+        # tasa_reasignacion = (reasignadas / total) * 100
+        plt.figure(figsize=(5, 5))
+        plt.pie([reasignadas, total - reasignadas], labels=['Reasignado', 'Otros'], autopct='%1.1f%%',
+                colors=['red', 'green'])
+        plt.title("Porcentaje de Reasignaciones")
+        st.pyplot(plt)
+
+        st.write("### Velocidad de Resolución por Tipo de Incidencia")
+        resoluciones_tipo = self.data['TipoIncidencia'].value_counts()
+        plt.figure(figsize=(8, 5))
+        resoluciones_tipo.plot(kind='bar', color='orange')
+        plt.title("Cantidad de Incidencias por Tipo de Incidencia")
+        plt.ylabel("Cantidad")
+        plt.xlabel("Tipo de Incidencia")
+        plt.xticks(rotation=0)
         st.pyplot(plt)
 
     def menu(self):
