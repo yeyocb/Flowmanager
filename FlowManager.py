@@ -71,8 +71,8 @@ class FlowManagerApp:
                                "Desarrollador4", "Desarrollador5", "Desarrollador6",
                                "Desarrollador7"]
 
-            tipoPruebaLista = ["Pruebas Funcionales", "Pruebas de Carga", "Pruebas de Regresión", "Pruebas de Integración"]
-            tipoIncideLista = ["Falla de sistema", "Performance", "Usabilidad"]
+            tipoPruebaLista = ["Pruebas Funcionales", "Pruebas de Integración", "Pruebas de Validación", "Pruebas de Regresión", "Pruebas de Carga"]
+            tipoIncideLista = ["Falla de sistema", "performance", "usabilidad"]
 
             proyectoInd = 0
             miembQAInd = 0
@@ -84,10 +84,10 @@ class FlowManagerApp:
             incidencias = []
             for i in range(1, cantidadInci + 1):
                 proyecto = proyectos[proyectoInd]
-                miembro_qa = miembrosQA[miembQAInd]
-                miembro_desarrollador = desarrolladores[miembrDesaInd]
-                tipo_prueba = tipoPruebaLista[tipoPruebaInd]
-                tipo_incidencia = tipoIncideLista[tipoIncInd]
+                miembroQA = miembrosQA[miembQAInd]
+                miembroDesarrollador = desarrolladores[miembrDesaInd]
+                tipoPrueba = tipoPruebaLista[tipoPruebaInd]
+                tipoIncidencia = tipoIncideLista[tipoIncInd]
                 desarrolladorSolu = desarrolladores[miembrDesaInd]
                 estado = "Abierto"
 
@@ -103,10 +103,10 @@ class FlowManagerApp:
                     "NumeroIncidencia": i,
                     "ProyectoNombre": proyecto,
                     "FechaHora": fecha_hora,
-                    "TipoPrueba": tipo_prueba,
-                    "TipoIncidencia": tipo_incidencia,
-                    "MiembroDesarrollador": miembro_desarrollador,
-                    "MiembroQA": miembro_qa,
+                    "TipoPrueba": tipoPrueba,
+                    "TipoIncidencia": tipoIncidencia,
+                    "MiembroDesarrollador": miembroDesarrollador,
+                    "MiembroQA": miembroQA,
                     "Descripcion": descripcion,
                     "FechaHoraQA": fecha_hora_qa,
                     "FechaHoraDesa": fecha_hora_desa,
@@ -160,9 +160,9 @@ class FlowManagerApp:
         st.pyplot(plt)
 
         st.write("### Reporte por Tipo de Incidencia")
-        incidencia_counts = self.data['TipoIncidencia'].value_counts()
+        incidenciaCount = self.data['TipoIncidencia'].value_counts()
         plt.figure(figsize=(8, 5))
-        incidencia_counts.plot(kind='bar', color='orange')
+        incidenciaCount.plot(kind='bar', color='orange')
         plt.title("Cantidad de Incidencias por Tipo de Incidencia")
         plt.ylabel("Cantidad")
         plt.xlabel("Tipo de Incidencia")
@@ -170,9 +170,9 @@ class FlowManagerApp:
         st.pyplot(plt)
 
         st.write("### Reporte por Desarrollador Responsable de la Incidencia")
-        desarrollador_counts = self.data['MiembroDesarrollador'].value_counts()
+        desarrolladorCount = self.data['MiembroDesarrollador'].value_counts()
         plt.figure(figsize=(8, 5))
-        desarrollador_counts.plot(kind='bar', color='green')
+        desarrolladorCount.plot(kind='bar', color='green')
         plt.title("Cantidad de Incidencias por Desarrollador Responsable")
         plt.ylabel("Cantidad")
         plt.xlabel("Desarrollador")
@@ -192,9 +192,9 @@ class FlowManagerApp:
         st.pyplot(plt)
 
         st.write("### Reporte por Desarrollador Responsables de la Solución")
-        desarrollador_sol_counts = self.data['DesarrolladorSol'].value_counts()
+        desarrollSolCounts = self.data['DesarrolladorSol'].value_counts()
         plt.figure(figsize=(8, 5))
-        desarrollador_sol_counts.plot(kind='bar', color='red')
+        desarrollSolCounts.plot(kind='bar', color='red')
         plt.title("Cantidad de Incidencias por Desarrollador Responsable de la Solución")
         plt.ylabel("Cantidad")
         plt.xlabel("Desarrollador de la Solución")
