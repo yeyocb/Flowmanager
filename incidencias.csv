@@ -1,0 +1,11 @@
+NumeroIncidencia,ProyectoNombre,FechaHora,TipoPrueba,TipoIncidencia,MiembroDesarrollador,MiembroQA,Descripcion,FechaHoraQA,FechaHoraDesa,FechaHoraCierre,DesarrolladorSol,Estado
+1,Proyecto1,2024-10-31 22:58:52,Pruebas Funcionales,Falla de sistema,Desarrollador3,QA3,Descripción de la incidencia 1,2024-11-02 19:58:52,2024-11-04 06:58:52,2024-11-05 18:58:52,Desarrollador1,Abierto
+2,Proyecto2,2024-10-18 22:58:52,Pruebas de Carga,Falla de sistema,Desarrollador2,QA1,Descripción de la incidencia 2,2024-10-20 11:58:52,2024-10-20 22:58:52,2024-10-22 13:58:52,Desarrollador2,Abierto
+3,Proyecto1,2024-10-15 22:58:52,Pruebas Funcionales,Performance,Desarrollador5,QA1,Descripción de la incidencia 3,2024-10-17 14:58:52,2024-10-18 11:58:52,2024-10-20 08:58:52,Desarrollador3,Abierto
+4,Proyecto3,2024-10-15 22:58:52,Pruebas de Integración,Usabilidad,Desarrollador6,QA1,Descripción de la incidencia 4,2024-10-17 09:58:52,2024-10-17 15:58:52,2024-10-18 12:58:52,Desarrollador2,Abierto
+5,Proyecto2,2024-10-21 22:58:52,Pruebas de Regresión,Performance,Desarrollador2,QA2,Descripción de la incidencia 5,2024-10-22 08:58:52,2024-10-22 23:58:52,2024-10-23 13:58:52,Desarrollador3,Abierto
+6,Proyecto3,2024-10-27 22:58:52,Pruebas de Validación,Performance,Desarrollador6,QA1,Descripción de la incidencia 6,2024-10-28 17:58:52,2024-10-29 05:58:52,2024-10-29 13:58:52,Desarrollador2,Abierto
+7,Proyecto2,2024-10-27 22:58:52,Pruebas de Regresión,Falla de sistema,Desarrollador4,QA2,Descripción de la incidencia 7,2024-10-28 21:58:52,2024-10-29 20:58:52,2024-10-31 12:58:52,Desarrollador3,Abierto
+8,Proyecto4,2024-11-03 22:58:52,Pruebas de Validación,Performance,Desarrollador2,QA2,Descripción de la incidencia 8,2024-11-05 05:58:52,2024-11-06 15:58:52,2024-11-08 15:58:52,Desarrollador2,Abierto
+9,Proyecto4,2024-10-19 22:58:52,Pruebas Funcionales,Usabilidad,Desarrollador6,QA2,Descripción de la incidencia 9,2024-10-21 01:58:52,2024-10-22 11:58:52,2024-10-23 18:58:52,Desarrollador1,Abierto
+10,Proyecto4,2024-10-14 22:58:52,Pruebas de Validación,Falla de sistema,Desarrollador6,QA3,Descripción de la incidencia 10,2024-10-15 16:58:52,2024-10-15 17:58:52,2024-10-16 03:58:52,Desarrollador3,Abierto
