@@ -1,6 +1,7 @@
 import pandas as pd
 import streamlit as st
 import matplotlib.pyplot as plt
+from random import randint
 
 class Proyecto:
     def __init__(self, codigo, nombre, descripcion, jefeProyecto):
@@ -59,6 +60,12 @@ class Incidencia:
 class FlowManagerApp:
     def __init__(self, nameCSV):
         self.data = pd.read_csv(nameCSV)
+
+    def generarDatos(self):
+        if st.button("Generar Indicencias"):
+            cantidadInci = randint(1000, 2000)
+            st.success(f"Se ha generado {cantidadInci} Incidencias.")
+
     def actualizarIncidencia(self):
         st.write("## Actualizar Incidencia")
 
@@ -145,9 +152,7 @@ class FlowManagerApp:
         if menuOpcion == "Generar":
             st.write("## Generar Datos")
             st.write("### Selecciona un boton para generar los datos.")
-            print('Generated: Generar Proyectos')
-            print('Generated: Generar equipo')
-            print('Generated: Generar Incidencias')
+            self.generarDatos()
         elif menuOpcion == "Actualizar Incidencia":
             self.actualizarIncidencia()
         elif menuOpcion == "Reportes":
