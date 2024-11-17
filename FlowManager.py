@@ -64,7 +64,69 @@ class FlowManagerApp:
     def generarDatos(self):
         if st.button("Generar Indicencias"):
             cantidadInci = randint(1000, 2000)
-            st.success(f"Se ha generado {cantidadInci} Incidencias.")
+
+            proyectos = ["Proyecto1", "Proyecto2", "Proyecto3", "Proyecto4"]
+            miembrosQA = ["QA1", "QA2", "QA3"]
+            desarrolladores = ["Desarrollador1", "Desarrollador2", "Desarrollador3",
+                               "Desarrollador4", "Desarrollador5", "Desarrollador6",
+                               "Desarrollador7"]
+
+            tipoPruebaLista = ["Pruebas Funcionales", "Pruebas de Carga", "Pruebas de Regresión", "Pruebas de Integración"]
+            tipoIncideLista = ["Falla de sistema", "Performance", "Usabilidad"]
+
+            proyectoInd = 0
+            miembQAInd = 0
+            miembrDesaInd = 0
+            tipoPruebaInd = 0
+            tipoIncInd = 0
+            estadoIncInd = 0
+
+            incidencias = []
+            for i in range(1, cantidadInci + 1):
+                proyecto = proyectos[proyectoInd]
+                miembro_qa = miembrosQA[miembQAInd]
+                miembro_desarrollador = desarrolladores[miembrDesaInd]
+                tipo_prueba = tipoPruebaLista[tipoPruebaInd]
+                tipo_incidencia = tipoIncideLista[tipoIncInd]
+                desarrolladorSolu = desarrolladores[miembrDesaInd]
+                estado = "Abierto"
+
+                fecha_hora = fake.date_time_this_year()
+                fecha_hora_qa = fake.date_time_between(start_date=fecha_hora, end_date="+2d")
+                fecha_hora_desa = fake.date_time_between(start_date=fecha_hora_qa, end_date="+3d")
+                fecha_hora_cierre = fake.date_time_between(start_date=fecha_hora_desa, end_date="+5d")
+                descripcion = f"Descripción de la incidencia {i}"
+
+                # Agregar los datos generados a la lista
+
+                incidencias.append({
+                    "NumeroIncidencia": i,
+                    "ProyectoNombre": proyecto,
+                    "FechaHora": fecha_hora,
+                    "TipoPrueba": tipo_prueba,
+                    "TipoIncidencia": tipo_incidencia,
+                    "MiembroDesarrollador": miembro_desarrollador,
+                    "MiembroQA": miembro_qa,
+                    "Descripcion": descripcion,
+                    "FechaHoraQA": fecha_hora_qa,
+                    "FechaHoraDesa": fecha_hora_desa,
+                    "FechaHoraCierre": fecha_hora_cierre,
+                    "DesarrolladorSol": desarrolladorSolu,
+                    "Estado": estado
+
+                })
+
+                proyectoInd = (proyectoInd + 1) % len(proyectos)
+                miembQAInd = (miembQAInd + 1) % len(miembrosQA)
+                miembrDesaInd = (miembrDesaInd + 1) % len(desarrolladores)
+                tipoPruebaInd = (tipoPruebaInd + 1) % len(tipoPruebaLista)
+                tipoIncInd = (tipoIncInd + 1) % len(tipoIncideLista)
+                estadoIncInd = (estadoIncInd + 1) % len(estadoInLista)
+
+            df = pd.DataFrame(incidencias)
+            df.to_csv('incidencias.csv', index=False, encoding='utf-8')
+
+        st.success(f"Se ha generado {cantidadInci} Incidencias.")
 
     def actualizarIncidencia(self):
         st.write("## Actualizar Incidencia")
